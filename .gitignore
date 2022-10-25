@@ -1,1 +1,8 @@
-gismeteo_application.py
+divide_data_output
+divide_data_output//**
+data_to_years_output//**
+data_to_years_output
+data_to_weeks_output//**
+data_to_weeks_output
+__pycache__//**
+__pycache__

@@ -1,7 +1,6 @@
 import csv
 import datetime
 import os
-from typing import NoReturn
 
 
 def get_year_from_data(data: list[list[str]], index: int) -> int:
@@ -137,7 +136,7 @@ def week_border(data: list[list[str]], index) -> list[str]:
         return (week)
 
 
-def weeks_writer(data: list[list[str]]) -> NoReturn:
+def weeks_writer(data: list[list[str]], output_directory: str) -> None:
     """A function that splits the original csv file into N files, where each individual file will correspond to one week.
     Args:
         data (list[list[str]]): A list with dates and data
@@ -168,7 +167,7 @@ def weeks_writer(data: list[list[str]]) -> NoReturn:
         if day_in_week == False:
 
             border = week_border(data, i)
-            with open(name_for_file(first_part_of_name, second_part_of_name), 'w', encoding='utf-8') as csv_file:
+            with open(os.path.join(output_directory, name_for_file(first_part_of_name, second_part_of_name)), 'w', encoding='utf-8') as csv_file:
                 writer = csv.writer(csv_file, lineterminator='\n')
                 for j in output:
                     writer.writerow((j))
@@ -177,7 +176,7 @@ def weeks_writer(data: list[list[str]]) -> NoReturn:
                 first_part_of_name = data[i][0]
 
 
-def data_to_weeks(file_name: str):
+def data_to_weeks(file_name: str, output_directory: str):
     """Function that reads the csv file
 
     Args:
@@ -189,12 +188,13 @@ def data_to_weeks(file_name: str):
 
     if os.path.exists(file_name):
 
-        if not os.path.exists('data_to_weeks_output'):
-            os.mkdir('data_to_weeks_output')
+        if not os.path.exists(os.path.join(output_directory,'data_to_weeks_output')):
+            os.mkdir(os.path.join(output_directory,'data_to_weeks_output'))
+        
 
         with open(file_name, 'r', encoding='utf-8') as csvfile:
             reader_object = list(csv.reader(csvfile, delimiter=","))
-            weeks_writer(reader_object)
+            weeks_writer(reader_object, output_directory)
 
     else:
         raise FileNotFoundError
