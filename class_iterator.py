@@ -5,10 +5,10 @@ import os
 
 class DateIterator:
 
-    def __init__(self):
+    def __init__(self, path):
 
         self.counter = 0
-        self.file_name = 'result.csv'
+        self.file_name = path
 
     def __next__(self) -> tuple:
 
@@ -30,11 +30,11 @@ class DateIterator:
 
 class DateIteratorFromXY:
 
-    def __init__(self):
+    def __init__(self, path_to_x: str , path_to_y: str):
 
         self.counter = 0
-        self.X = 'divide_data_output//X.csv'
-        self.Y = 'divide_data_output//Y.csv'
+        self.X = path_to_x
+        self.Y = path_to_y
 
     def __next__(self) -> tuple:
 
@@ -66,9 +66,9 @@ class DateIteratorFromXY:
 
 
 class DateIteratorFromWeeks:
-    def __init__(self):
+    def __init__(self, path: str):
 
-        self.file_name = 'data_to_weeks_output'
+        self.file_name = path
         self.counter = 0
         self.data = []
 
@@ -98,9 +98,9 @@ class DateIteratorFromWeeks:
 
 
 class DateIteratorFromYears:
-    def __init__(self):
+    def __init__(self, path: str):
 
-        self.file_name = 'data_to_years_output'
+        self.file_name = path
         self.counter = 0
         self.data = []
 
