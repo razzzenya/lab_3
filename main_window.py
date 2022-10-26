@@ -74,23 +74,128 @@ class GismeteoApplication(QWidget):
         eigth_btn = QPushButton(
             '&Вызвать итератор датасета разбитого на файлы X.csv и Y.csv', self)
         eigth_btn.move(5, 205)
-        
+        eigth_btn.clicked.connect(self.start_iter_from_x_y)
+
         nine_btn = QPushButton(
             '&Вызвать итератор датасета разбитого по годам', self)
         nine_btn.move(5, 230)
+        nine_btn.clicked.connect(self.start_iter_from_years)
         
         ten_btn = QPushButton(
             '&Вызвать итератор датасета разбитого по неделям', self)
         ten_btn.move(5, 255)
-        
+        ten_btn.clicked.connect(self.start_iter_from_weeks)
+
         eleven_btn = QPushButton(
             '&Вызвать итератор исходного датасета', self)
         eleven_btn.move(5, 280)
         eleven_btn.clicked.connect(self.start_iter_from_source)
 
         self.show()
+
+    def start_iter_from_weeks(self):
+        """Iteration from data_to_years output
+        """
+      
+        _msg = QMessageBox()
+        _msg.setWindowTitle('Сообщение')
+        _msg.setText(
+            'Выберите директорию датасета разбитого по неделям')
+        _msg.setIcon(QMessageBox.Information)
+
+        _msg.exec_()
+
+        file_path = QFileDialog.getExistingDirectory(
+                self, 'Select Folder')
+        object = class_iterator.DateIteratorFromWeeks(file_path)
+
+        self.dialog = QMessageBox()
+
+        self.dialog.addButton(
+            'Начать', QMessageBox.AcceptRole)
+        self.dialog.addButton(
+            'Отмена', QMessageBox.RejectRole)
+        self.dialog.setIcon(QMessageBox.Information)
+        self.dialog.setWindowTitle('Итератор')
+        self.dialog.exec()
         
+        self.result = QMessageBox()
+
+        while(True):
+            
+            if self.dialog.clickedButton().text() == 'Начать':
+
+                self.result = QMessageBox()
+                item = next(object)
+                text = 'Вывод итератора:' + \
+                    str(item) + '\nВыберите что сделать'
+                self.result.setIcon(QMessageBox.Information)
+                self.result.setWindowTitle('Результат итерации')
+                self.result.setText(text)
+                self.result.addButton('Продолжить', QMessageBox.AcceptRole)
+                self.result.addButton('Прекратить итерацию', QMessageBox.RejectRole)
+                self.result.exec()
+                
+                if self.result.clickedButton().text() == 'Прекратить итерацию':
+                    break
+
+                
+            elif self.dialog.clickedButton().text() == 'Отмена':
+                break  
+
+    def start_iter_from_years(self):
+        """Iteration from data_to_years output
+        """
+      
+        _msg = QMessageBox()
+        _msg.setWindowTitle('Сообщение')
+        _msg.setText(
+            'Выберите директорию датасета разбитого по годам')
+        _msg.setIcon(QMessageBox.Information)
+
+        _msg.exec_()
+
+        file_path = QFileDialog.getExistingDirectory(
+                self, 'Select Folder')
+        object = class_iterator.DateIteratorFromYears(file_path)
+
+        self.dialog = QMessageBox()
+
+        self.dialog.addButton(
+            'Начать', QMessageBox.AcceptRole)
+        self.dialog.addButton(
+            'Отмена', QMessageBox.RejectRole)
+        self.dialog.setIcon(QMessageBox.Information)
+        self.dialog.setWindowTitle('Итератор')
+        self.dialog.exec()
+        
+        self.result = QMessageBox()
+
+        while(True):
+            
+            if self.dialog.clickedButton().text() == 'Начать':
+
+                self.result = QMessageBox()
+                item = next(object)
+                text = 'Вывод итератора:' + \
+                    str(item) + '\nВыберите что сделать'
+                self.result.setIcon(QMessageBox.Information)
+                self.result.setWindowTitle('Результат итерации')
+                self.result.setText(text)
+                self.result.addButton('Продолжить', QMessageBox.AcceptRole)
+                self.result.addButton('Прекратить итерацию', QMessageBox.RejectRole)
+                self.result.exec()
+                
+                if self.result.clickedButton().text() == 'Прекратить итерацию':
+                    break
+
+                
+            elif self.dialog.clickedButton().text() == 'Отмена':
+                break  
+
     def start_iter_from_source(self):
+        """Iteration from source file
+        """
         
         _msg = QMessageBox()
         _msg.setWindowTitle('Сообщение')
@@ -99,58 +204,94 @@ class GismeteoApplication(QWidget):
         _msg.setIcon(QMessageBox.Information)
 
         _msg.exec_()
-        
-        file_path = QFileDialog.getOpenFileName(self, 'Select Folder')[0]
+
+        file_path = QFileDialog.getOpenFileName(self, 'Select Folder', filter="*.csv")[0]
         object = class_iterator.DateIterator(file_path)
+
+        self.dialog = QMessageBox()
+
+        self.dialog.addButton(
+            'Начать', QMessageBox.AcceptRole)
+        self.dialog.addButton(
+            'Отмена', QMessageBox.RejectRole)
+        self.dialog.setIcon(QMessageBox.Information)
+        self.dialog.setWindowTitle('Итератор')
+        self.dialog.exec()
         
+        self.result = QMessageBox()
+
         while(True):
             
-            if self.is_csv(file_path) == 2:
-                             
-                self.dialog = QMessageBox()
+            if self.dialog.clickedButton().text() == 'Начать':
+
+                self.result = QMessageBox()
+                item = next(object)
+                text = 'Вывод итератора:' + \
+                    str(item) + '\nВыберите что сделать'
+                self.result.setIcon(QMessageBox.Information)
+                self.result.setWindowTitle('Результат итерации')
+                self.result.setText(text)
+                self.result.addButton('Продолжить', QMessageBox.AcceptRole)
+                self.result.addButton('Прекратить итерацию', QMessageBox.RejectRole)
+                self.result.exec()
                 
-                self.dialog.addButton('Автоитерация', QMessageBox.AcceptRole)
-                self.dialog.addButton('Следующий элемент', QMessageBox.AcceptRole)
-                self.dialog.addButton('Прекратить итерацию', QMessageBox.RejectRole)
-                self.dialog.setIcon(QMessageBox.Information)
-                self.dialog.setWindowTitle('Итерация...')   
-                self.dialog.setText('Выберите что сделать')
-                self.dialog.exec()
-                
-                if self.dialog.clickedButton().text() == 'Следующий элемент':
-                    
-                    item = next(object)
-                    text = 'Вывод итератора:' + str(item) + '\nВыберите что сделать'
-                    self.result = QMessageBox()
-                    self.result.setIcon(QMessageBox.Information)
-                    self.result.setWindowTitle('Результат итерации')
-                    self.result.setText(text)
-                    self.result.exec()
-             
-                elif self.dialog.clickedButton().text() == 'Автоитерация':
-                    pass
-                
-                elif self.dialog.clickedButton().text() == 'Прекратить итерацию':
+                if self.result.clickedButton().text() == 'Прекратить итерацию':
                     break
-            
-            elif self.is_csv(file_path) == 1:
-                
-                _msg = QMessageBox()
-                _msg.setWindowTitle('Сообщение')
-                _msg.setText('Вы выбрали файл неверного формата!')
-                _msg.setIcon(QMessageBox.Critical)
 
-                _msg.exec_()
+                
+            elif self.dialog.clickedButton().text() == 'Отмена':
                 break
-            
-            elif self.is_csv(file_path) == 3:
-                
-                _msg = QMessageBox()
-                _msg.setWindowTitle('Сообщение')
-                _msg.setText('Вы не указали путь к файлу!')
-                _msg.setIcon(QMessageBox.Critical)
 
-                _msg.exec_()
+    def start_iter_from_x_y(self):
+        """Iteration from X.csv and Y.csv
+        """
+
+        _msg = QMessageBox()
+        _msg.setWindowTitle('Сообщение')
+        _msg.setText(
+            'Выберите сначала файл X , затем Y')
+        _msg.setIcon(QMessageBox.Information)
+
+        _msg.exec_()
+
+        file_path_x = QFileDialog.getOpenFileName(self, 'Select Folder', filter="*.csv")[0]
+        file_path_y = QFileDialog.getOpenFileName(self, 'Select Folder', filter="*.csv")[0]
+        
+        object = class_iterator.DateIteratorFromXY(file_path_x, file_path_y)
+
+        self.dialog = QMessageBox()
+
+        self.dialog.addButton(
+            'Начать', QMessageBox.AcceptRole)
+        self.dialog.addButton(
+            'Отмена', QMessageBox.RejectRole)
+        self.dialog.setIcon(QMessageBox.Information)
+        self.dialog.setWindowTitle('Итератор')
+        self.dialog.exec()
+        
+        self.result = QMessageBox()
+
+        while(True):
+            
+            if self.dialog.clickedButton().text() == 'Начать':
+
+                self.result = QMessageBox()
+                item = next(object)
+                text = 'Вывод итератора:' + \
+                    str(item) + '\nВыберите что сделать'
+                self.result.setIcon(QMessageBox.Information)
+                self.result.setWindowTitle('Результат итерации')
+                self.result.setText(text)
+                self.result.addButton('Продолжить', QMessageBox.AcceptRole)
+                self.result.addButton('Прекратить итерацию', QMessageBox.RejectRole)
+                self.result.exec()
+                
+                if self.result.clickedButton().text() == 'Прекратить итерацию':
+                    break
+
+                
+            elif self.dialog.clickedButton().text() == 'Отмена':
+                break
 
     def search_dialog(self, choice_flag: int):
         """Searching a data for inputed date
@@ -196,58 +337,29 @@ class GismeteoApplication(QWidget):
 
             _msg.exec_()
 
-            file_path_x = QFileDialog.getOpenFileName(self, 'Select Folder')[0]
-            file_path_y = QFileDialog.getOpenFileName(self, 'Select Folder')[0]
+            file_path_x = QFileDialog.getOpenFileName(self, 'Select Folder', filter="*.csv")[0]
+            file_path_y = QFileDialog.getOpenFileName(self, 'Select Folder', filter="*.csv")[0]
 
-            while (True):
+            output = get_data.get_data_from_x_y(file_path_x, file_path_y, self.date_formatter(date))
 
-                if self.is_csv(file_path_x) == 3 or self.is_csv(file_path_y) == 3:
+            if output != None:
 
-                    _msg = QMessageBox()
-                    _msg.setWindowTitle('Сообщение')
-                    _msg.setText(
-                        'Вы выбрали файл неверного формата! Запись не была произведена.')
-                    _msg.setIcon(QMessageBox.Critical)
+                done_msg = QMessageBox()
+                done_msg.setWindowTitle('Сообщение')
+                msg = 'Данные к дате ' + str(date) + ': ' + str(output)
+                done_msg.setText(msg)
+                done_msg.setIcon(QMessageBox.Information)
 
-                    _msg.exec_()
-                    break
+                done_msg.exec_()
 
-                if self.is_csv(file_path_x) == 2 and self.is_csv(file_path_y) == 2:
+            else:
 
-                    output = get_data.get_data_from_x_y(
-                        file_path_x, file_path_y, self.date_formatter(date))
+                done_msg = QMessageBox()
+                done_msg.setWindowTitle('Сообщение')
+                done_msg.setText('Данные не были найдены!')
+                done_msg.setIcon(QMessageBox.Critical)
 
-                    if output != None:
-
-                        done_msg = QMessageBox()
-                        done_msg.setWindowTitle('Сообщение')
-                        msg = 'Данные к дате ' + str(date) + ': ' + str(output)
-                        done_msg.setText(msg)
-                        done_msg.setIcon(QMessageBox.Information)
-
-                        done_msg.exec_()
-                        break
-
-                    else:
-
-                        done_msg = QMessageBox()
-                        done_msg.setWindowTitle('Сообщение')
-                        done_msg.setText('Данные не были найдены!')
-                        done_msg.setIcon(QMessageBox.Critical)
-
-                        done_msg.exec_()
-                        break
-
-                elif self.is_csv(file_path_x) == 1 or self.is_csv(file_path_y) == 1:
-
-                    _msg = QMessageBox()
-                    _msg.setWindowTitle('Сообщение')
-                    _msg.setText(
-                        'Вы не указали путь к файлу! Запись не была произведена.')
-                    _msg.setIcon(QMessageBox.Critical)
-
-                    _msg.exec_()
-                    break
+                done_msg.exec_()
 
         elif is_input_correct and choice_flag == 2:
 
@@ -379,40 +491,20 @@ class GismeteoApplication(QWidget):
 
         _msg.exec_()
 
-        file_path = QFileDialog.getOpenFileName(self, 'Select Folder')[0]
+        file_path = QFileDialog.getOpenFileName(
+            self, "Напишите название файла", filter="*.csv")[0]
 
-        while (True):
+        output_directory = QFileDialog.getExistingDirectory(
+            self, 'Select Folder')
+        data_to_weeks.data_to_weeks(file_path, output_directory)
 
-            if self.is_csv(file_path) == 1:
+        done_msg = QMessageBox()
+        done_msg.setWindowTitle('Сообщение')
+        done_msg.setText('Файлы созданы по адресу :' +
+                         str(os.path.join(output_directory, 'data_to_weeks_output')))
+        done_msg.setIcon(QMessageBox.Information)
 
-                _msg = QMessageBox()
-                _msg.setWindowTitle('Сообщение')
-                _msg.setText(
-                    'Вы не выбрали исходный .csv файл! Запись не была произведена.')
-                _msg.setIcon(QMessageBox.Critical)
-
-                _msg.exec_()
-                break
-
-            if self.is_csv(file_path) == 2:
-
-                output_directory = QFileDialog.getExistingDirectory(
-                    self, 'Select Folder')
-                data_to_weeks.data_to_weeks(file_path, output_directory)
-
-                done_msg = QMessageBox()
-                done_msg.setWindowTitle('Сообщение')
-                done_msg.setText('Файлы созданы по адресу :' +
-                                 str(os.path.join(output_directory, 'data_to_years_output')))
-                done_msg.setIcon(QMessageBox.Information)
-
-                done_msg.exec_()
-                break
-
-            elif self.is_csv(file_path) == 3:
-
-                file_path = QFileDialog.getOpenFileName(
-                    self, 'Select Folder')[0]
+        done_msg.exec_()
 
     def start_data_to_years(self):
         """Function that sorts data to different files where each individual file will correspond to one year
@@ -426,40 +518,20 @@ class GismeteoApplication(QWidget):
 
         _msg.exec_()
 
-        file_path = QFileDialog.getOpenFileName(self, 'Select Folder')[0]
+        file_path = QFileDialog.getOpenFileName(
+            self, "Напишите название файла", filter="*.csv")[0]
 
-        while (True):
+        output_directory = QFileDialog.getExistingDirectory(
+            self, 'Select Folder')
+        data_to_years.data_to_years(file_path, output_directory)
 
-            if self.is_csv(file_path) == 1:
+        done_msg = QMessageBox()
+        done_msg.setWindowTitle('Сообщение')
+        done_msg.setText('Файлы созданы по адресу :' +
+                         str(os.path.join(output_directory, 'data_to_years_output')))
+        done_msg.setIcon(QMessageBox.Information)
 
-                _msg = QMessageBox()
-                _msg.setWindowTitle('Сообщение')
-                _msg.setText(
-                    'Вы не выбрали исходный .csv файл! Запись не была произведена.')
-                _msg.setIcon(QMessageBox.Critical)
-
-                _msg.exec_()
-                break
-
-            elif self.is_csv(file_path) == 2:
-
-                output_directory = QFileDialog.getExistingDirectory(
-                    self, 'Select Folder')
-                data_to_years.data_to_years(file_path, output_directory)
-
-                done_msg = QMessageBox()
-                done_msg.setWindowTitle('Сообщение')
-                done_msg.setText('Файлы созданы по адресу :' +
-                                 str(os.path.join(output_directory, 'data_to_years_output')))
-                done_msg.setIcon(QMessageBox.Information)
-
-                done_msg.exec_()
-                break
-
-            elif self.is_csv(file_path) == 3:
-
-                file_path = QFileDialog.getOpenFileName(
-                    self, 'Select Folder')[0]
+        done_msg.exec_()
 
     def start_div_data(self):
         """Creates X.csv and Y.csv files
@@ -473,40 +545,20 @@ class GismeteoApplication(QWidget):
 
         _msg.exec_()
 
-        file_path = QFileDialog.getOpenFileName(self, 'Select Folder')[0]
+        file_path = QFileDialog.getOpenFileName(
+            self, "Напишите название файла", filter="*.csv")[0]
 
-        while (True):
+        output_directory = QFileDialog.getExistingDirectory(
+            self, 'Select Folder')
+        div_data.divide_data(file_path, output_directory)
 
-            if self.is_csv(file_path) == 1:
+        done_msg = QMessageBox()
+        done_msg.setWindowTitle('Сообщение')
+        done_msg.setText('Файлы созданы по адресу :' +
+                         str(os.path.join(output_directory, 'divide_data_output')))
+        done_msg.setIcon(QMessageBox.Information)
 
-                _msg = QMessageBox()
-                _msg.setWindowTitle('Сообщение')
-                _msg.setText(
-                    'Вы не выбрали исходный .csv файл! Запись не была произведена.')
-                _msg.setIcon(QMessageBox.Critical)
-
-                _msg.exec_()
-                break
-
-            if self.is_csv(file_path) == 2:
-
-                output_directory = QFileDialog.getExistingDirectory(
-                    self, 'Select Folder')
-                div_data.divide_data(file_path, output_directory)
-
-                done_msg = QMessageBox()
-                done_msg.setWindowTitle('Сообщение')
-                done_msg.setText('Файлы созданы по адресу :' +
-                                 str(os.path.join(output_directory, 'divide_data_output')))
-                done_msg.setIcon(QMessageBox.Information)
-
-                done_msg.exec_()
-                break
-
-            elif self.is_csv(file_path) == 3:
-
-                file_path = QFileDialog.getOpenFileName(
-                    self, 'Select Folder')[0]
+        done_msg.exec_()
 
     def start_parser(self):
         """Creates a source file
@@ -531,24 +583,6 @@ class GismeteoApplication(QWidget):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
-
-    def is_csv(self, file_path: str) -> int:
-        """The function checks if the file is .csv
-
-        Args:
-            file_path (str): Path to file
-
-        Returns:
-            int: is file chosen correct
-        """
-        if file_path == '':
-            return 1
-
-        elif os.path.splitext(file_path)[1] == '.csv':
-            return 2
-
-        elif os.path.splitext(file_path)[1] != '.csv':
-            return 3
 
     def keyPressEvent(self, e):
 
