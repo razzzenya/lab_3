@@ -80,7 +80,7 @@ class GismeteoApplication(QWidget):
             '&Вызвать итератор датасета разбитого по годам', self)
         nine_btn.move(5, 230)
         nine_btn.clicked.connect(self.start_iter_from_years)
-        
+
         ten_btn = QPushButton(
             '&Вызвать итератор датасета разбитого по неделям', self)
         ten_btn.move(5, 255)
@@ -96,7 +96,7 @@ class GismeteoApplication(QWidget):
     def start_iter_from_weeks(self):
         """Iteration from data_to_years output
         """
-      
+
         _msg = QMessageBox()
         _msg.setWindowTitle('Сообщение')
         _msg.setText(
@@ -106,7 +106,7 @@ class GismeteoApplication(QWidget):
         _msg.exec_()
 
         file_path = QFileDialog.getExistingDirectory(
-                self, 'Select Folder')
+            self, 'Select Folder')
         object = class_iterator.DateIteratorFromWeeks(file_path)
 
         self.dialog = QMessageBox()
@@ -118,11 +118,11 @@ class GismeteoApplication(QWidget):
         self.dialog.setIcon(QMessageBox.Information)
         self.dialog.setWindowTitle('Итератор')
         self.dialog.exec()
-        
+
         self.result = QMessageBox()
 
-        while(True):
-            
+        while (True):
+
             if self.dialog.clickedButton().text() == 'Начать':
 
                 self.result = QMessageBox()
@@ -133,20 +133,20 @@ class GismeteoApplication(QWidget):
                 self.result.setWindowTitle('Результат итерации')
                 self.result.setText(text)
                 self.result.addButton('Продолжить', QMessageBox.AcceptRole)
-                self.result.addButton('Прекратить итерацию', QMessageBox.RejectRole)
+                self.result.addButton(
+                    'Прекратить итерацию', QMessageBox.RejectRole)
                 self.result.exec()
-                
+
                 if self.result.clickedButton().text() == 'Прекратить итерацию':
                     break
 
-                
             elif self.dialog.clickedButton().text() == 'Отмена':
-                break  
+                break
 
     def start_iter_from_years(self):
         """Iteration from data_to_years output
         """
-      
+
         _msg = QMessageBox()
         _msg.setWindowTitle('Сообщение')
         _msg.setText(
@@ -156,7 +156,7 @@ class GismeteoApplication(QWidget):
         _msg.exec_()
 
         file_path = QFileDialog.getExistingDirectory(
-                self, 'Select Folder')
+            self, 'Select Folder')
         object = class_iterator.DateIteratorFromYears(file_path)
 
         self.dialog = QMessageBox()
@@ -168,11 +168,11 @@ class GismeteoApplication(QWidget):
         self.dialog.setIcon(QMessageBox.Information)
         self.dialog.setWindowTitle('Итератор')
         self.dialog.exec()
-        
+
         self.result = QMessageBox()
 
-        while(True):
-            
+        while (True):
+
             if self.dialog.clickedButton().text() == 'Начать':
 
                 self.result = QMessageBox()
@@ -183,20 +183,20 @@ class GismeteoApplication(QWidget):
                 self.result.setWindowTitle('Результат итерации')
                 self.result.setText(text)
                 self.result.addButton('Продолжить', QMessageBox.AcceptRole)
-                self.result.addButton('Прекратить итерацию', QMessageBox.RejectRole)
+                self.result.addButton(
+                    'Прекратить итерацию', QMessageBox.RejectRole)
                 self.result.exec()
-                
+
                 if self.result.clickedButton().text() == 'Прекратить итерацию':
                     break
 
-                
             elif self.dialog.clickedButton().text() == 'Отмена':
-                break  
+                break
 
     def start_iter_from_source(self):
         """Iteration from source file
         """
-        
+
         _msg = QMessageBox()
         _msg.setWindowTitle('Сообщение')
         _msg.setText(
@@ -205,7 +205,8 @@ class GismeteoApplication(QWidget):
 
         _msg.exec_()
 
-        file_path = QFileDialog.getOpenFileName(self, 'Select Folder', filter="*.csv")[0]
+        file_path = QFileDialog.getOpenFileName(
+            self, 'Select Folder', filter="*.csv")[0]
         object = class_iterator.DateIterator(file_path)
 
         self.dialog = QMessageBox()
@@ -217,11 +218,11 @@ class GismeteoApplication(QWidget):
         self.dialog.setIcon(QMessageBox.Information)
         self.dialog.setWindowTitle('Итератор')
         self.dialog.exec()
-        
+
         self.result = QMessageBox()
 
-        while(True):
-            
+        while (True):
+
             if self.dialog.clickedButton().text() == 'Начать':
 
                 self.result = QMessageBox()
@@ -232,13 +233,13 @@ class GismeteoApplication(QWidget):
                 self.result.setWindowTitle('Результат итерации')
                 self.result.setText(text)
                 self.result.addButton('Продолжить', QMessageBox.AcceptRole)
-                self.result.addButton('Прекратить итерацию', QMessageBox.RejectRole)
+                self.result.addButton(
+                    'Прекратить итерацию', QMessageBox.RejectRole)
                 self.result.exec()
-                
+
                 if self.result.clickedButton().text() == 'Прекратить итерацию':
                     break
 
-                
             elif self.dialog.clickedButton().text() == 'Отмена':
                 break
 
@@ -254,9 +255,11 @@ class GismeteoApplication(QWidget):
 
         _msg.exec_()
 
-        file_path_x = QFileDialog.getOpenFileName(self, 'Select Folder', filter="*.csv")[0]
-        file_path_y = QFileDialog.getOpenFileName(self, 'Select Folder', filter="*.csv")[0]
-        
+        file_path_x = QFileDialog.getOpenFileName(
+            self, 'Select Folder', filter="*.csv")[0]
+        file_path_y = QFileDialog.getOpenFileName(
+            self, 'Select Folder', filter="*.csv")[0]
+
         object = class_iterator.DateIteratorFromXY(file_path_x, file_path_y)
 
         self.dialog = QMessageBox()
@@ -268,11 +271,11 @@ class GismeteoApplication(QWidget):
         self.dialog.setIcon(QMessageBox.Information)
         self.dialog.setWindowTitle('Итератор')
         self.dialog.exec()
-        
+
         self.result = QMessageBox()
 
-        while(True):
-            
+        while (True):
+
             if self.dialog.clickedButton().text() == 'Начать':
 
                 self.result = QMessageBox()
@@ -283,13 +286,13 @@ class GismeteoApplication(QWidget):
                 self.result.setWindowTitle('Результат итерации')
                 self.result.setText(text)
                 self.result.addButton('Продолжить', QMessageBox.AcceptRole)
-                self.result.addButton('Прекратить итерацию', QMessageBox.RejectRole)
+                self.result.addButton(
+                    'Прекратить итерацию', QMessageBox.RejectRole)
                 self.result.exec()
-                
+
                 if self.result.clickedButton().text() == 'Прекратить итерацию':
                     break
 
-                
             elif self.dialog.clickedButton().text() == 'Отмена':
                 break
 
@@ -337,10 +340,13 @@ class GismeteoApplication(QWidget):
 
             _msg.exec_()
 
-            file_path_x = QFileDialog.getOpenFileName(self, 'Select Folder', filter="*.csv")[0]
-            file_path_y = QFileDialog.getOpenFileName(self, 'Select Folder', filter="*.csv")[0]
+            file_path_x = QFileDialog.getOpenFileName(
+                self, 'Select Folder', filter="*.csv")[0]
+            file_path_y = QFileDialog.getOpenFileName(
+                self, 'Select Folder', filter="*.csv")[0]
 
-            output = get_data.get_data_from_x_y(file_path_x, file_path_y, self.date_formatter(date))
+            output = get_data.get_data_from_x_y(
+                file_path_x, file_path_y, self.date_formatter(date))
 
             if output != None:
 
